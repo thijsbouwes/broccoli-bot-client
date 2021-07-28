@@ -11,9 +11,9 @@ class DetectionAlgorithm:
     def setup(self):
         print('setup netwerk')
         self.network, self.class_names, class_colors = darknet.load_network(
-            os.path.join(os.path.dirname(__file__), 'cfg/yolov4-tiny-custom.cfg'), # 'cfg/yolo-obj.cfg'
+            os.path.join(os.path.dirname(__file__), 'cfg/cfg/yolo-obj.cfg'), # 'yolov4-tiny-custom.cfg'
             os.path.join(os.path.dirname(__file__), 'obj.data'),
-            os.path.join(os.path.dirname(__file__), 'weights/yolov4-tiny-custom_best.weights'), # 'weights/yolo-obj_best.weights'
+            os.path.join(os.path.dirname(__file__), 'weights/weights/yolo-obj_best.weights'), # 'yolov4-tiny-custom_best.weights'
             batch_size=1
         )
 

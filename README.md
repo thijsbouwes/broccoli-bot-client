@@ -51,6 +51,7 @@ The following transformations have been applied: 5% rotate, 15% zoom, flip horiz
 | Name        | FPS           | AP  |
 | :------------- |:-------------| :-----|
 | YOLO V4      | 31.5 | 70.48% |
+| YOLO V4 Tiny     | 63.6 | 67.36% |
 | YOLACT      | 19.5      |   73.82% |
 
 
@@ -107,9 +108,11 @@ After updating the make file run `make`.
 #### Python setup
 1. `sudo apt-get install libpython3.6-dev`
 1. `cd ~/Documents`
-1. `git clone git@github.com:thijsbouwes/broccoli-bot-client.git`
-1. `cd broccoli-bot-client`
-1. Download weights [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
+1. `git clone git@github.com:thijsbouwes/broccoli-bot-client.git bbot`
+1. `cd bbot`
+1. Download weights YOLO V4 [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
+1. Download weights YOLO V4 Tiny [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
+1. Will default use YOLO V4, change `detection_algorithm.py`
 1. Move weights to right dir `mkdir weights && mv yolo-obj_best.weights weights/yolo-obj_best.weights`
 1. `sudo apt install python3-pip`
 1. `sudo apt install clang`
