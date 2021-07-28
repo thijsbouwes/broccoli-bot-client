@@ -75,8 +75,6 @@ For this challenge we have chosen the NVIDIA Jetson: powerfull, low power consum
 - SparkFun GPS-RTK-SMA Breakout - ZED-F9P, for location of broccoli
 
 ### Installation
-Installing 
-
 #### AGX - [user guide](https://developer.download.nvidia.com/embedded/L4T/r32-3-1_Release_v1.0/jetson_agx_xavier_developer_kit_user_guide.pdf)
 1. Download jetpack sdkmanager (do this on Ubuntu LTS 18.04)
 1. `sudo dpkg -i sdkmanager.db`
@@ -122,8 +120,17 @@ After updating the make file run `make`.
 #### QT5 and PySide2
 1. OpenSLL `sudo apt install libssl-dev`
 1. Cmake min 3.6, read [this](https://askubuntu.com/a/1126495/920517) on how to build from the source
-
-This will take some time, got the installation working with [link](https://forums.developer.nvidia.com/t/pyside2-qt-for-python-installation-on-jetson-xavier/160796/5).
+1. Continue the installation with [instructions](https://forums.developer.nvidia.com/t/pyside2-qt-for-python-installation-on-jetson-xavier/160796/5)
 
 ### Start
 1. `python3 -m bbot`
+
+## Design
+### UI
+![UI](images/Broccoli%20Proof%20Of%20Concept%20-%20Ui.png "UI")
+
+### Class Diagram
+![Class Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Class%20Diagram.jpg "Class Diagram")
+
+### Sequence Diagram
+![Sequence Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Sequence%20Diagram.jpg "Sequence Diagram")
