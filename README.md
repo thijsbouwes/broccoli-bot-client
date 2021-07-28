@@ -111,7 +111,7 @@ After updating the make file run `make`.
 1. `git clone git@github.com:thijsbouwes/broccoli-bot-client.git bbot`
 1. `cd bbot`
 1. Download weights YOLO V4 [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
-1. Download weights YOLO V4 Tiny [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
+1. Download weights YOLO V4 Tiny [Google drive](https://drive.google.com/file/d/1dE3DwF1SJIGR5Rd8f6q0mtQFeaJvlUXv/view?usp=sharing)
 1. Will default use YOLO V4, change `detection_algorithm.py`
 1. Move weights to right dir `mkdir weights && mv yolo-obj_best.weights weights/yolo-obj_best.weights`
 1. `sudo apt install python3-pip`
