@@ -23,7 +23,7 @@ After studying these recent projects it was clear deep learning works best for r
 
 ### Data set
 The [data set](https://lcas.lincoln.ac.uk/nextcloud/shared/agritech-datasets/broccoli/broccoli_datasets.html) of thu university of Lincoln is used as base, this data set contains two cultivars: Iron Man and Titanium. From the 100 minutes of video 334 images where selected on these images the broccoli was visible and in a unique situation.
-The images have been annotated with the tool [LabelMe](https://github.com/wkentaro/labelme) (Polygonal Annotation), the data set can be download [here](https://drive.google.com/file/d/1UT0oOEhtnEtcDArdgwuYOUvl5VN2ROKC/view?usp=sharing). To avoid overfitting and do a honest comparison the datset is split as followed:
+The images have been annotated with the tool [LabelMe](https://github.com/wkentaro/labelme) (Polygonal Annotation), the data set can be downloaded through [Google Drive](https://drive.google.com/file/d/1UT0oOEhtnEtcDArdgwuYOUvl5VN2ROKC/view?usp=sharing). To avoid overfitting and do a honest comparison the datset is split as followed:
 
 | Name        | Percentage           | Images  |
 | :------------- |:-------------| :-----|
@@ -110,6 +110,9 @@ After updating the make file run `make`.
 1. `sudo apt-get install libpython3.6-dev`
 1. `cd ~/Documents`
 1. `git clone git@github.com:thijsbouwes/broccoli-bot-client.git`
+1. `cd broccoli-bot-client`
+1. Download weights [Google drive](https://drive.google.com/file/d/16uuFWwXVRzTpcRRsjfSnkho3oerCey-J/view?usp=sharing)
+1. Move weights to right dir `mkdir weights && mv yolo-obj_best.weights weights/yolo-obj_best.weights`
 1. `sudo apt install python3-pip`
 1. `sudo apt install clang`
 1. `pip install --upgrade setuptools`
