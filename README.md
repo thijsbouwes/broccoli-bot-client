@@ -137,3 +137,8 @@ After updating the make file run `make`.
 
 ### Sequence Diagram
 ![Sequence Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Sequence%20Diagram.jpg "Sequence Diagram")
+
+## Data collection
+For every broccoli the software will make an image and collect data (diameter and distance). The image is written to `~/bbot/data-collection/images/{year}/{month}/{day}`, the csv file with all the information is written to `~/bbot/data-collection/reports`.
+
+On our Jetson we have created a symbolic link to the SSD (mounted as `/mnt/data`) `ln -s /mnt/data/bbot-data-collection ~/bbot/data-collection`.
