@@ -24,7 +24,5 @@ class ImageEditor:
     def convert_to_qt_format(self, frame):
         h, w, ch = frame.shape
         bytes_per_line = ch * w
-        return QtGui.QImage(frame.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
 
-        return image_path
-        return convert_to_qt_format.scaled(960, 540, Qt.KeepAspectRatio)
+        return QtGui.QImage(frame.data, w, h, bytes_per_line, QtGui.QImage.Format_BGR888)
