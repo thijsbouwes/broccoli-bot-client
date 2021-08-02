@@ -22,13 +22,9 @@ class ImageEditor:
         return image
 
     def convert_to_qt_format(self, frame):
-        dirname = os.path.dirname(__file__)
-        image_path = os.path.join(dirname, 'result.jpg')
-
-        cv2.imwrite(image_path, frame)
-        # h, w, ch = frame.shape
-        # bytes_per_line = ch * w
-        # return QtGui.QImage(frame.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
+        h, w, ch = frame.shape
+        bytes_per_line = ch * w
+        return QtGui.QImage(frame.data, w, h, bytes_per_line, QtGui.QImage.Format_RGB888)
 
         return image_path
-        # return convert_to_qt_format.scaled(960, 540, Qt.KeepAspectRatio)
+        return convert_to_qt_format.scaled(960, 540, Qt.KeepAspectRatio)

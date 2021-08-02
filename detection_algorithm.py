@@ -1,4 +1,4 @@
-import bbot.darknet as darknet
+# import bbot.darknet as darknet
 from bbot.broccoli import Broccoli
 from bbot.box import Box
 import cv2
@@ -10,14 +10,21 @@ class DetectionAlgorithm:
 
     def setup(self):
         print('setup netwerk')
+        return
         self.network, self.class_names, class_colors = darknet.load_network(
-            os.path.join(os.path.dirname(__file__), 'cfg/cfg/yolo-obj.cfg'), # 'yolov4-tiny-custom.cfg'
+            os.path.join(os.path.dirname(__file__), 'cfg/yolo-obj.cfg'), # 'yolov4-tiny-custom.cfg'
             os.path.join(os.path.dirname(__file__), 'obj.data'),
             os.path.join(os.path.dirname(__file__), 'weights/weights/yolo-obj_best.weights'), # 'yolov4-tiny-custom_best.weights'
             batch_size=1
         )
 
     def get_broccolis(self, image, min_core):
+        broccoli = Broccoli()
+        box = Box((320, 240, 50, 50))
+        broccoli.set_box(box)
+
+        return [broccoli]
+
         frame_resized = cv2.resize(image, (self.width, self.height),interpolation=cv2.INTER_LINEAR)
         img_for_detect = darknet.make_image(self.width, self.height, 3)
         darknet.copy_image_from_bytes(img_for_detect, frame_resized.tobytes())

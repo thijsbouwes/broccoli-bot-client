@@ -1,5 +1,5 @@
 classes = 1
 train  = data/train.txt
 valid  = data/test.txt
-names = /home/bbot/Documents/broccoli-bot-client/obj.names
+names = /home/bbot/Documents/bbot/data/obj.names
 backup = backup/

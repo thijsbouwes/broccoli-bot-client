@@ -9,9 +9,10 @@ import datetime
 class Camera:
     def __init__(self):
         self.color_frame = False
-        self.depth_frame = False
+        self.aligned_depth_frame = False
 
     def setup(self):
+        return
         # Create a pipeline
         self.pipeline = rs.pipeline()
 
@@ -41,6 +42,7 @@ class Camera:
         self.align = rs.align(align_to)
 
     def take_photo(self):
+        return
         # Get frameset of color and depth
         frames = self.pipeline.wait_for_frames()
 
@@ -58,7 +60,7 @@ class Camera:
         # self.depth_image = np.asanyarray(aligned_depth_frame.get_data())
         self.color_image = np.asanyarray(color_frame.get_data())
 
-        if True:
+        if False:
             dirname = os.path.dirname(__file__)
             now = datetime.datetime.now()
             time = now.strftime("%d-%m-%Y %H-%M-%S-%f") # remove %f
@@ -67,9 +69,17 @@ class Camera:
 
 
     def get_color_frame(self):
+        dirname = os.path.dirname(__file__)
+        images_dir = os.path.join(dirname, 'images-test')
+        file = random.choice(os.listdir(images_dir))
+        file_path = os.path.join(images_dir, file)
+        img = cv2.imread(file_path, cv2.COLOR_BGR2RGB)
+        return img
+
         return self.color_image
 
     def get_depth_in_mm(self, box: Box):
+        return 10
         # convert m to mm
         x, y = box.get_center()
         depth = int(self.aligned_depth_frame.get_distance(x,y) * 1000)

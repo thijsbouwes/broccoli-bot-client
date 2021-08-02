@@ -5,11 +5,16 @@ class FarmingLogic:
         self.min_diameter = 10
         self.max_diameter = 150
         self.max_depth = 1000
+        self.image_height = 720
 
         self.harvested = 0
         self.skipped = 0
+        self.broccolis = 0
 
-        self.last_y = 0
+        self.count_offset = self.image_height * 0.75
+        self.count_border = self .image_height / 2
+        self.last_broccoli_y = self.count_offset
+
 
     def is_harvestable(self, broccoli: Broccoli):
         if broccoli.get_diameter() < self.min_diameter:
@@ -24,15 +29,16 @@ class FarmingLogic:
     def count(self, broccoli):
         x, y = broccoli.get_box().get_center()
 
-        if y > 220 and self.last_y < 100:
-            self.last_y = y
+        if y <= self.count_border and self.last_broccoli_y >= self.count_offset:
+            self.broccolis += 1
 
             if broccoli.is_harvestable():
                 self.harvested += 1
             else:
                 self.skipped += 1
 
-        print('count y: {} last: {}'.format(y, self.last_y))
+        self.last_broccoli_y = y
+        print('count y: {} last: {}'.format(y, self.last_broccoli_y))
 
     def set_min_diameter(self, min_diameter):
         # print('set_min_diameter {}'.format(min_diameter))

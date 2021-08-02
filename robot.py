@@ -58,7 +58,7 @@ class Robot(QObject):
                 self.update_data.emit((frame_path, self.farming_logic.get_harvested(), self.farming_logic.get_skipped(), self.fps))
                 self.start_time = time.time()
                 QApplication.processEvents()
-                time.sleep(0.001)
+                time.sleep(0.1)
 
         except Exception as e:
             print('Error in thread: {}'.format(e))

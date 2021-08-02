@@ -55,7 +55,7 @@ class Ui(QMainWindow):
         self.robot_thread.start()
 
     def set_image(self, image):
-        self.image.setPixmap(QtGui.QPixmap(image))
+        print('test')
         # self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def reset_counters(self):
