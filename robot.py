@@ -49,7 +49,7 @@ class Robot(QObject):
                     color_frame = self.image_editor.draw_broccoli(color_frame, broccoli)
 
                 # Find closest broccoli and count
-                broccoli_closest_to_machine = min(broccolis, key=attrgetter('get_box.get_y_center'))
+                broccoli_closest_to_machine = min(broccolis, key=attrgetter('box.y_center'))
                 if broccoli_closest_to_machine:
                     self.farming_logic.count(broccoli_closest_to_machine)
                     broccoli_closest_to_machine.set_id(self.farming_logic.get_broccolis_count())
