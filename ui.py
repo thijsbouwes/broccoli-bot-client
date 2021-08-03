@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QWidget, QMainWindow, QLCDNumber, QPushButton, QSp
 from PySide2.QtCore import QFile, QThread, Qt, Signal
 from PySide2.QtUiTools import QUiLoader
 from pathlib import Path
-from bbot.robot import Robot
+from robot import Robot
 import os
 
 class Ui(QMainWindow):
@@ -63,7 +63,6 @@ class Ui(QMainWindow):
         self.skipped_lcd.display(0)
 
     def update_data(self, data):
-        # self.set_image()
         self.set_image(data[0])
         self.harvested_lcd.display(data[1])
         self.skipped_lcd.display(data[2])

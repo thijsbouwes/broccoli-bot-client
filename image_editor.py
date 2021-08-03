@@ -1,6 +1,4 @@
 from PySide2 import QtGui
-from PySide2.QtCore import Qt
-import cv2
 import os
 import cv2
 
@@ -20,6 +18,13 @@ class ImageEditor:
         cv2.putText(image, 'D: {} mm Z: {} mm S: {}'.format(broccoli.get_diameter(), broccoli.get_depth(), broccoli.get_score()), (text_x + 10, text_y + 22), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
 
         return image
+
+    def store_image(self, image):
+        dirname = os.path.dirname(__file__)
+        now = datetime.datetime.now()
+        time = now.strftime("%d-%m-%Y %H-%M-%S-%f")
+        image_path = os.path.join(dirname, 'data-collection/{%Y}/{%m}/{%d}/frame-{}.jpg'.format(time))
+        cv2.imwrite(image_path, image)
 
     def convert_to_qt_format(self, frame):
         h, w, ch = frame.shape

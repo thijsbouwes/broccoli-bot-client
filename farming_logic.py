@@ -1,4 +1,5 @@
-from bbot.broccoli import Broccoli
+from broccoli import Broccoli
+
 
 class FarmingLogic:
     def __init__(self):
@@ -11,12 +12,12 @@ class FarmingLogic:
         self.skipped = 0
         self.broccolis = 0
 
-        self.count_offset = self.image_height * 0.75
-        self.count_border = self .image_height / 2
-        self.last_broccoli_y = self.count_offset
+        self.count_offset = self.image_height * 0.25
+        self.count_border = self.image_height / 2
+        self.count_new_broccoli = False
+        self.new_broccoli_detected = False
 
-
-    def is_harvestable(self, broccoli: Broccoli):
+    def is_harvestable(self, broccoli: Broccoli) -> bool:
         if broccoli.get_diameter() < self.min_diameter:
             return False
         elif broccoli.get_diameter() > self.max_diameter:
@@ -26,34 +27,40 @@ class FarmingLogic:
         else:
             return True
 
-    def count(self, broccoli):
+    def count(self, broccoli: Broccoli) -> None:
         x, y = broccoli.get_box().get_center()
 
-        if y <= self.count_border and self.last_broccoli_y >= self.count_offset:
+        if y >= self.count_offset:
+            self.count_new_broccoli = True
+
+        if y >= self.count_border and self.count_new_broccoli:
             self.broccolis += 1
+            self.count_new_broccoli = False
+            self.new_broccoli_detected = True
 
             if broccoli.is_harvestable():
                 self.harvested += 1
             else:
                 self.skipped += 1
+        else:
+            self.new_broccoli_detected = False
 
-        self.last_broccoli_y = y
-        print('count y: {} last: {}'.format(y, self.last_broccoli_y))
+        print('count y: {} new: {} count new: {}'.format(y, self.new_broccoli_detected, self.count_new_broccoli))
 
-    def set_min_diameter(self, min_diameter):
-        # print('set_min_diameter {}'.format(min_diameter))
+    def set_min_diameter(self, min_diameter: int):
         self.min_diameter = min_diameter
 
-    def set_max_diameter(self, max_diameter):
-        # print('set_max_diameter {}'.format(max_diameter))
+    def set_max_diameter(self, max_diameter: int):
         self.max_diameter = max_diameter
 
-    def set_max_depth(self, max_depth):
-        # print('set_max_depth {}'.format(max_depth))
+    def set_max_depth(self, max_depth: int):
         self.max_depth = max_depth
 
-    def get_harvested(self):
+    def get_harvested(self) -> int:
         return self.harvested
 
-    def get_skipped(self):
+    def get_skipped(self) -> int:
         return self.skipped
+
+    def get_new_broccoli_detected(self) -> bool:
+        return self.new_broccoli_detected

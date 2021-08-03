@@ -1,18 +1,13 @@
-import cv2
-import os, random
 import pyrealsense2.pyrealsense2 as rs
-import bbot.box as Box
+import box as Box
 import numpy as np
-import cv2
-import datetime
 
 class Camera:
     def __init__(self):
         self.color_frame = False
         self.aligned_depth_frame = False
 
-    def setup(self):
-        return
+    def setup(self) -> None:
         # Create a pipeline
         self.pipeline = rs.pipeline()
 
@@ -24,6 +19,7 @@ class Camera:
         pipeline_wrapper = rs.pipeline_wrapper(self.pipeline)
         pipeline_profile = config.resolve(pipeline_wrapper)
 
+        # todo format 1920x1080
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
         config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
 
@@ -41,8 +37,7 @@ class Camera:
         align_to = rs.stream.color
         self.align = rs.align(align_to)
 
-    def take_photo(self):
-        return
+    def take_photo(self) -> None:
         # Get frameset of color and depth
         frames = self.pipeline.wait_for_frames()
 
@@ -60,31 +55,16 @@ class Camera:
         # self.depth_image = np.asanyarray(aligned_depth_frame.get_data())
         self.color_image = np.asanyarray(color_frame.get_data())
 
-        if False:
-            dirname = os.path.dirname(__file__)
-            now = datetime.datetime.now()
-            time = now.strftime("%d-%m-%Y %H-%M-%S-%f") # remove %f
-            image_path = os.path.join(dirname, 'images-test/frame-{}.jpg'.format(time))
-            cv2.imwrite(image_path, self.color_image)
-
-
-    def get_color_frame(self):
-        dirname = os.path.dirname(__file__)
-        images_dir = os.path.join(dirname, 'images-test')
-        file = random.choice(os.listdir(images_dir))
-        file_path = os.path.join(images_dir, file)
-        img = cv2.imread(file_path, cv2.COLOR_BGR2RGB)
-        return img
-
+    def get_color_frame(self) -> np.ndarray:
         return self.color_image
 
-    def get_depth_in_mm(self, box: Box):
-        return 10
-        # convert m to mm
+    def get_depth_in_mm(self, box: Box) -> int:
+        # convert m to m
         x, y = box.get_center()
         depth = int(self.aligned_depth_frame.get_distance(x,y) * 1000)
 
         return depth
 
-    def get_diameter_in_mm(self, box: Box):
+    def get_diameter_in_mm(self, box: Box) -> int:
+        # todo get diameter at depth
         return box.get_max_size()

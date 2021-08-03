@@ -1,12 +1,11 @@
 import time
-from random import randrange
 from PySide2.QtCore import QObject, QFile, QThread, Qt, Signal
 from PySide2.QtWidgets import QApplication
-from bbot.farming_logic import FarmingLogic
-from bbot.camera import Camera
-from bbot.detection_algorithm import DetectionAlgorithm
-from bbot.image_editor import ImageEditor
-from bbot.camera import Camera
+from farming_logic import FarmingLogic
+from detection_algorithm import DetectionAlgorithm
+from image_editor import ImageEditor
+from camera import Camera
+from operator import attrgetter
 
 class Robot(QObject):
     update_data = Signal(list)
@@ -34,28 +33,44 @@ class Robot(QObject):
                 self.camera.take_photo()
                 color_frame = self.camera.get_color_frame()
 
-                # Find broccoli's, run YOLACT model (filter: class and scores)
+                # Find broccoli's, run YOLO model (filter: class and scores)
                 # Returns array with masks / boxes
                 broccolis = self.detection_algorithm.get_broccolis(color_frame, self.min_score)
 
-                # # Determine depth and size for each broccoli
+                # Determine depth and size for each broccoli
                 for broccoli in broccolis:
                     box = broccoli.get_box()
                     broccoli.set_depth(self.camera.get_depth_in_mm(box))
                     broccoli.set_diameter(self.camera.get_diameter_in_mm(box))
                     broccoli.set_haravestable(self.farming_logic.is_harvestable(broccoli))
 
-                    self.farming_logic.count(broccoli)
                     color_frame = self.image_editor.draw_broccoli(color_frame, broccoli)
+
+                broccoli_closest_to_machine = max(broccolis, key=attrgetter('get_box.get_y_center'))
+                if broccoli_closest_to_machine:
+                    self.farming_logic.count(broccoli_closest_to_machine)
+
+                # store data
+                if self.farming_logic.get_new_broccoli_detected():
+                    print('store new broccoli')
+                    raw_image = self.camera.get_color_frame()
+                    
+                    color_filename = self.image_editor.store_image(color_frame, 'color')
+                    raw_filename = self.image_editor.store_image(raw_image, 'raw')
+                    self.csv.write_line(broccoli, color_filename, raw_filename)
+
+                    # 1. raw image
+                    # 2. color image
+                    # 3. update csv
 
                 # Calculate FPS
                 self.calculate_fps()
 
                 # Display frame
-                frame_path = self.image_editor.convert_to_qt_format(color_frame)
+                qt_image = self.image_editor.convert_to_qt_format(color_frame)
 
                 # img, harvested, skipped, fps
-                self.update_data.emit((frame_path, self.farming_logic.get_harvested(), self.farming_logic.get_skipped(), self.fps))
+                self.update_data.emit((qt_image, self.farming_logic.get_harvested(), self.farming_logic.get_skipped(), self.fps))
                 self.start_time = time.time()
                 QApplication.processEvents()
                 time.sleep(0.1)
