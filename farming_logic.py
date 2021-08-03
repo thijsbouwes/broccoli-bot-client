@@ -1,5 +1,4 @@
-from broccoli import Broccoli
-
+from bbot.broccoli import Broccoli
 
 class FarmingLogic:
     def __init__(self):

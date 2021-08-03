@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QWidget, QMainWindow, QLCDNumber, QPushButton, QSp
 from PySide2.QtCore import QFile, QThread, Qt, Signal
 from PySide2.QtUiTools import QUiLoader
 from pathlib import Path
-from robot import Robot
+from bbot.robot import Robot
 import os
 
 class Ui(QMainWindow):

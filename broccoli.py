@@ -1,4 +1,4 @@
-from box import Box
+from bbot.box import Box
 
 class Broccoli:
     def __init__(self):

@@ -22,7 +22,6 @@ Windows Python 2.7 version: https://github.com/AlexeyAB/darknet/blob/fc496d52bf2
 @date: 20180503
 """
 from ctypes import *
-import math
 import random
 import os
 

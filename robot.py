@@ -1,10 +1,10 @@
 import time
 from PySide2.QtCore import QObject, QFile, QThread, Qt, Signal
 from PySide2.QtWidgets import QApplication
-from farming_logic import FarmingLogic
-from detection_algorithm import DetectionAlgorithm
-from image_editor import ImageEditor
-from camera import Camera
+from bbot.detection_algorithm import DetectionAlgorithm
+from bbot.farming_logic import FarmingLogic
+from bbot.image_editor import ImageEditor
+from bbot.camera import Camera
 from operator import attrgetter
 from csv import Csv
 

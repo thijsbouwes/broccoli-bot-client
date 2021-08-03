@@ -1,5 +1,5 @@
 import csv
-from broccoli import Broccoli
+from bbot.broccoli import Broccoli
 import os
 import datetime
 

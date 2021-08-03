@@ -1,5 +1,5 @@
 import pyrealsense2.pyrealsense2 as rs
-import box as Box
+import bbot.box as Box
 import numpy as np
 
 class Camera:
