@@ -1,4 +1,4 @@
-# import bbot.darknet as darknet
+import bbot.darknet as darknet
 from bbot.broccoli import Broccoli
 from bbot.box import Box
 import cv2
