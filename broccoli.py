@@ -2,11 +2,18 @@ from box import Box
 
 class Broccoli:
     def __init__(self):
+        self.id = False
         self.diameter = 0
         self.depth = 0
         self.harvestable = False
         self.box = False
         self.score = 0
+
+    def get_id(self) -> int:
+        return self.id
+
+    def set_id(self, id: int):
+        self.id = id
 
     def get_box(self) -> Box:
         return self.box

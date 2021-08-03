@@ -1,6 +1,7 @@
 from PySide2 import QtGui
 import os
 import cv2
+import datetime
 
 class ImageEditor:
     def draw_broccoli(self, image, broccoli):
@@ -19,14 +20,18 @@ class ImageEditor:
 
         return image
 
-    def store_image(self, image):
-        dirname = os.path.dirname(__file__)
+    def store_image(self, image, type: str) -> str:
         now = datetime.datetime.now()
-        time = now.strftime("%d-%m-%Y %H-%M-%S-%f")
-        image_path = os.path.join(dirname, 'data-collection/{%Y}/{%m}/{%d}/frame-{}.jpg'.format(time))
-        cv2.imwrite(image_path, image)
+        image_path = now.strftime("data-collection/%Y/%m/%d/")
+        image_filename = now.strftime("%H-%M-%f-{}-image.jpg").format('color')
 
-    def convert_to_qt_format(self, frame):
+        # Create dir and image
+        os.makedirs(image_path, exist_ok=True)
+        cv2.imwrite(image_path + image_filename, image)
+
+        return image_filename
+
+    def convert_to_qt_format(self, frame) -> QtGui.QImage:
         h, w, ch = frame.shape
         bytes_per_line = ch * w
 

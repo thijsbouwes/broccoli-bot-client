@@ -6,6 +6,7 @@ from detection_algorithm import DetectionAlgorithm
 from image_editor import ImageEditor
 from camera import Camera
 from operator import attrgetter
+from csv import Csv
 
 class Robot(QObject):
     update_data = Signal(list)
@@ -15,6 +16,7 @@ class Robot(QObject):
         self.fps = 0
         self.min_score = 0.5
 
+        self.csv = Csv()
         self.farming_logic = FarmingLogic()
         self.camera = Camera()
         self.image_editor = ImageEditor()
@@ -34,7 +36,6 @@ class Robot(QObject):
                 color_frame = self.camera.get_color_frame()
 
                 # Find broccoli's, run YOLO model (filter: class and scores)
-                # Returns array with masks / boxes
                 broccolis = self.detection_algorithm.get_broccolis(color_frame, self.min_score)
 
                 # Determine depth and size for each broccoli
@@ -44,24 +45,22 @@ class Robot(QObject):
                     broccoli.set_diameter(self.camera.get_diameter_in_mm(box))
                     broccoli.set_haravestable(self.farming_logic.is_harvestable(broccoli))
 
+                    # Update image
                     color_frame = self.image_editor.draw_broccoli(color_frame, broccoli)
 
-                broccoli_closest_to_machine = max(broccolis, key=attrgetter('get_box.get_y_center'))
+                # Find closest broccoli and count
+                broccoli_closest_to_machine = min(broccolis, key=attrgetter('get_box.get_y_center'))
                 if broccoli_closest_to_machine:
                     self.farming_logic.count(broccoli_closest_to_machine)
+                    broccoli_closest_to_machine.set_id(self.farming_logic.get_broccolis_count())
 
-                # store data
+                # Store data
                 if self.farming_logic.get_new_broccoli_detected():
                     print('store new broccoli')
                     raw_image = self.camera.get_color_frame()
-                    
                     color_filename = self.image_editor.store_image(color_frame, 'color')
                     raw_filename = self.image_editor.store_image(raw_image, 'raw')
-                    self.csv.write_line(broccoli, color_filename, raw_filename)
-
-                    # 1. raw image
-                    # 2. color image
-                    # 3. update csv
+                    self.csv.writerow(broccoli_closest_to_machine, color_filename, raw_filename)
 
                 # Calculate FPS
                 self.calculate_fps()
