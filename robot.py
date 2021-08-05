@@ -80,7 +80,9 @@ class Robot(QObject):
             print('Error in: {}'.format(e))
 
     def save_ground_truth(self, ground_truth_diameter: int, ground_truth_depth: int):
-        self.csv.update_row(self.farming_logic.get_broccoli_count(), ground_truth_diameter, ground_truth_depth)
+        broccoli_id = self.farming_logic.get_broccoli_count()
+        if broccoli_id:
+            self.csv.update_row(self.farming_logic.get_broccoli_count(), ground_truth_diameter, ground_truth_depth)
 
     def calculate_fps(self):
         self.fps = int(1.0 / (time.time() - self.start_time))

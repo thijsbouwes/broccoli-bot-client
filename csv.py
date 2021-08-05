@@ -47,7 +47,7 @@ class Csv:
         temp_file = NamedTemporaryFile('w', delete=False)
 
         with open(self.path + file_name, 'r') as csv_file, temp_file:
-            reader = csv.DictReader(csv_file, fiealdnames=self.headers)
+            reader = csv.DictReader(csv_file, fieldnames=self.headers)
             writer = csv.DictWriter(temp_file, fieldnames=self.headers)
 
             for row in reader:
