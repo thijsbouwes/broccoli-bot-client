@@ -22,8 +22,9 @@ class ImageEditor:
 
     def store_image(self, image, type: str) -> str:
         now = datetime.datetime.now()
-        image_path = now.strftime("data-collection/%Y/%m/%d/")
-        image_filename = now.strftime("%H-%M-%f-{}-image.jpg").format('color')
+        dirname = os.path.dirname(__file__)
+        image_path = os.path.join(dirname, now.strftime("data-collection/%Y/%m/%d/"))
+        image_filename = now.strftime("%H-%M-%f-{}-image.jpg").format(type)
 
         print("New image, path: {} filename: {}".format(image_path, image_filename))
 
@@ -31,7 +32,7 @@ class ImageEditor:
         os.makedirs(image_path, exist_ok=True)
         cv2.imwrite(image_path + image_filename, image)
 
-        return image_filename
+        return image_path + image_filename
 
     def convert_to_qt_format(self, frame) -> QtGui.QImage:
         h, w, ch = frame.shape
