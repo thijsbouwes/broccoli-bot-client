@@ -75,7 +75,7 @@ class Robot(QObject):
                 QApplication.processEvents()
                 time.sleep(0.1)
 
-        except Exception as e:git
+        except Exception as e:
             print('Error in thread: {}'.format(e))
 
     def calculate_fps(self):
