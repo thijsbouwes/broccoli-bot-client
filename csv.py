@@ -12,7 +12,7 @@ class Csv:
         now = datetime.datetime.now()
         file_name = now.strftime("%Y-%m-%d-data.csv")
 
-        with open(self.path + file_name) as csv_file:
+        with open(self.path + file_name, 'W') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow([
                 broccoli.get_id(),
