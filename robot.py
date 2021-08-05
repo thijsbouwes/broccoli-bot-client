@@ -34,6 +34,7 @@ class Robot(QObject):
                 # Get image from camera
                 self.camera.take_photo()
                 color_frame = self.camera.get_color_frame()
+                raw_image = color_frame.copy()
 
                 # Find broccoli's, run YOLO model (filter: class and scores)
                 broccolis = self.detection_algorithm.get_broccolis(color_frame, self.min_score)
@@ -57,15 +58,9 @@ class Robot(QObject):
 
                     # Store data
                     if self.farming_logic.get_new_broccoli_detected():
-                        print('store new broccoli')
-                        raw_image = color_frame.copy()
                         color_filename = self.image_editor.store_image(color_frame, 'color')
                         raw_filename = self.image_editor.store_image(raw_image, 'raw')
-                        self.csv.writerow(broccoli_closest_to_machine, color_filename, raw_filename)
-
-                # Create color frame
-                for broccoli in broccolis:
-                    color_frame = self.image_editor.draw_broccoli(color_frame, broccoli)
+                        self.csv.write_row(broccoli_closest_to_machine, color_filename, raw_filename)
 
                 # Calculate FPS
                 self.calculate_fps()
@@ -84,9 +79,11 @@ class Robot(QObject):
         except Exception as e:
             print('Error in: {}'.format(e))
 
+    def save_ground_truth(self, ground_truth_diameter: int, ground_truth_depth: int):
+        self.csv.update_row(self.farming_logic.get_broccoli_count(), ground_truth_diameter, ground_truth_depth)
+
     def calculate_fps(self):
         self.fps = int(1.0 / (time.time() - self.start_time))
 
     def set_min_score(self, min_score):
-        print('set_min_score {}'.format(min_score))
         self.min_score = round(min_score, 2)

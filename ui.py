@@ -63,8 +63,7 @@ class Ui(QMainWindow):
         self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def save_ground_truth(self):
-        print("Save ground truth {} {}".format(self.broccoli_depth.value(), self.broccoli_diameter.value()))
-        # self.roboto.csv
+        self.robot.save_ground_truth(self.broccoli_depth.value(), self.broccoli_diameter.value())
 
     def reset_counters(self):
         self.robot.farming_logic.set_skipped(0)
