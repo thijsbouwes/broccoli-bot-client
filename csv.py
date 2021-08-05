@@ -25,8 +25,8 @@ class Csv:
         file_name = self.get_file_name()
         file_exists = os.path.isfile(self.path + file_name)
 
-        with open(self.path + file_name, 'w') as csv_file:
-            writer = csv.DicWriter(csv_file, fieldnames=self.headers)
+        with open(self.path + file_name, 'a') as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=self.headers)
 
             if not file_exists:
                 writer.writeheader()
@@ -46,17 +46,17 @@ class Csv:
         file_name = self.get_file_name()
         temp_file = NamedTemporaryFile('w', delete=False)
 
-        with open(self.path + file_name, 'r') as csv_file:
+        with open(self.path + file_name, 'r') as csv_file, temp_file:
             reader = csv.DictReader(csv_file, fiealdnames=self.headers)
-            writer = csv.DicWriter(temp_file, fieldnames=self.headers)
+            writer = csv.DictWriter(temp_file, fieldnames=self.headers)
 
             for row in reader:
-                if row['id'] == broccoli_id:
+                if row['id'] == str(broccoli_id):
                     row['ground_truth_diameter'] = ground_truth_diameter
                     row['ground_truth_depth'] = ground_truth_depth
                 writer.writerow(row)
 
-            shutil.move(temp_file.name, file_name)
+        shutil.move(temp_file.name, self.path + file_name)
 
     def get_file_name(self):
         now = datetime.datetime.now()
