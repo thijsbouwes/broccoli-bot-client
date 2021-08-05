@@ -25,6 +25,7 @@ class Ui(QMainWindow):
         self.fps_lcd = self.findChild(QLCDNumber, 'fps')
         self.harvested_lcd = self.findChild(QLCDNumber, 'harvested')
         self.skipped_lcd = self.findChild(QLCDNumber, 'skipped')
+        self.broccoli_id_lcd = self.findChild(QLCDNumber, 'broccoliId')
 
         # Setup settings
         self.min_diameter = self.findChild(QSpinBox, 'minDiameter')
@@ -61,9 +62,11 @@ class Ui(QMainWindow):
         print('Reset')
         self.harvested_lcd.display(0)
         self.skipped_lcd.display(0)
+        # self.robot.farming_logic.
 
     def update_data(self, data):
         self.set_image(data[0])
-        self.harvested_lcd.display(data[1])
-        self.skipped_lcd.display(data[2])
-        self.fps_lcd.display(data[3])
+        self.broccoli_id_lcd.display(data[1])
+        self.harvested_lcd.display(data[2])
+        self.skipped_lcd.display(data[3])
+        self.fps_lcd.display(data[4])

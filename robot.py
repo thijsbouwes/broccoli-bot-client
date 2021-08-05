@@ -53,15 +53,15 @@ class Robot(QObject):
                     broccoli_closest_to_machine = min(broccolis, key=attrgetter('box.y_center'))
                     if broccoli_closest_to_machine:
                         self.farming_logic.count(broccoli_closest_to_machine)
-                        broccoli_closest_to_machine.set_id(self.farming_logic.get_broccolis_count())
+                        broccoli_closest_to_machine.set_id(self.farming_logic.get_broccoli_count())
 
-                # Store data
-                if self.farming_logic.get_new_broccoli_detected():
-                    print('store new broccoli')
-                    raw_image = self.camera.get_color_frame()
-                    color_filename = self.image_editor.store_image(color_frame, 'color')
-                    raw_filename = self.image_editor.store_image(raw_image, 'raw')
-                    self.csv.writerow(broccoli_closest_to_machine, color_filename, raw_filename)
+                    # Store data
+                    if self.farming_logic.get_new_broccoli_detected():
+                        print('store new broccoli')
+                        raw_image = self.camera.get_color_frame()
+                        color_filename = self.image_editor.store_image(color_frame, 'color')
+                        raw_filename = self.image_editor.store_image(raw_image, 'raw')
+                        self.csv.writerow(broccoli_closest_to_machine, color_filename, raw_filename)
 
                 # Calculate FPS
                 self.calculate_fps()
@@ -70,12 +70,12 @@ class Robot(QObject):
                 qt_image = self.image_editor.convert_to_qt_format(color_frame)
 
                 # img, harvested, skipped, fps
-                self.update_data.emit((qt_image, self.farming_logic.get_harvested(), self.farming_logic.get_skipped(), self.fps))
+                self.update_data.emit((qt_image, self.farming_logic.get_broccoli_count(), self.farming_logic.get_harvested(), self.farming_logic.get_skipped(), self.fps))
                 self.start_time = time.time()
                 QApplication.processEvents()
                 time.sleep(0.1)
 
-        except Exception as e:
+        except Exception as e:git
             print('Error in thread: {}'.format(e))
 
     def calculate_fps(self):

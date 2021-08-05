@@ -21,7 +21,7 @@ class Camera:
 
         # todo format 1920x1080
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
-        config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
+        config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
 
         # Start streaming
         profile = self.pipeline.start(config)

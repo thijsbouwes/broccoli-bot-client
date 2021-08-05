@@ -9,7 +9,7 @@ class FarmingLogic:
 
         self.harvested = 0
         self.skipped = 0
-        self.broccolis_count = 0
+        self.broccoli_count = 0
 
         self.count_offset = self.image_height * 0.25
         self.count_border = self.image_height / 2
@@ -29,11 +29,11 @@ class FarmingLogic:
     def count(self, broccoli: Broccoli) -> None:
         x, y = broccoli.get_box().get_center()
 
-        if y >= self.count_offset:
+        if y <= self.count_offset:
             self.count_new_broccoli = True
 
         if y >= self.count_border and self.count_new_broccoli:
-            self.broccolis_count += 1
+            self.broccoli_count += 1
             self.count_new_broccoli = False
             self.new_broccoli_detected = True
 
@@ -55,8 +55,8 @@ class FarmingLogic:
     def set_max_depth(self, max_depth: int):
         self.max_depth = max_depth
 
-    def get_broccolis_count(self) -> int:
-        return self.broccolis_count
+    def get_broccoli_count(self) -> int:
+        return self.broccoli_count
 
     def get_harvested(self) -> int:
         return self.harvested

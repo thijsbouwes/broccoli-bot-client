@@ -25,6 +25,8 @@ class ImageEditor:
         image_path = now.strftime("data-collection/%Y/%m/%d/")
         image_filename = now.strftime("%H-%M-%f-{}-image.jpg").format('color')
 
+        print("New image, path: {} filename: {}".format(image_path, image_filename))
+
         # Create dir and image
         os.makedirs(image_path, exist_ok=True)
         cv2.imwrite(image_path + image_filename, image)
