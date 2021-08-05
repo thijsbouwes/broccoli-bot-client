@@ -20,6 +20,8 @@ class Ui(QMainWindow):
         # Setup buttons
         self.reset_count_btn = self.findChild(QPushButton, 'resetCount')
         self.reset_count_btn.clicked.connect(self.reset_counters)
+        self.save_ground_truth_btn = self.findChild(QPushButton, 'saveGroundTruth')
+        self.save_ground_truth_btn.clicked.connect(self.save_ground_truth)
 
         # Setup counters
         self.fps_lcd = self.findChild(QLCDNumber, 'fps')
@@ -32,6 +34,8 @@ class Ui(QMainWindow):
         self.max_diameter = self.findChild(QSpinBox, 'maxDiameter')
         self.max_depth = self.findChild(QSpinBox, 'maxDepth')
         self.min_score = self.findChild(QDoubleSpinBox, 'minScore')
+        self.broccoli_diameter = self.findChild(QSpinBox, 'broccoliDiameter')
+        self.broccoli_depth = self.findChild(QSpinBox, 'broccoliDepth')
 
         # Setup image
         self.image = self.findChild(QLabel, 'image')
@@ -58,11 +62,13 @@ class Ui(QMainWindow):
     def set_image(self, image):
         self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
+    def save_ground_truth(self):
+        print("Save ground truth {} {}".format(self.broccoli_depth, self.broccoli_diameter))
+        # self.roboto.csv
+
     def reset_counters(self):
-        print('Reset')
-        self.harvested_lcd.display(0)
-        self.skipped_lcd.display(0)
-        # self.robot.farming_logic.
+        self.robot.farming_logic.set_skipped(0)
+        self.robot.farming_logic.set_harvested(0)
 
     def update_data(self, data):
         self.set_image(data[0])

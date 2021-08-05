@@ -61,8 +61,14 @@ class FarmingLogic:
     def get_harvested(self) -> int:
         return self.harvested
 
+    def set_harvested(self, harvested: int) -> None:
+        self.harvested = harvested
+
     def get_skipped(self) -> int:
         return self.skipped
+
+    def set_skipped(self, skipped: int) -> None:
+        self.skipped = skipped
 
     def get_new_broccoli_detected(self) -> bool:
         return self.new_broccoli_detected
