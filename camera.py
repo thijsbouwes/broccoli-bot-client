@@ -35,8 +35,8 @@ class Camera:
         print("Depth Scale is: " , depth_scale)
 
 	    # Allow some frames for the auto-exposure controller to stablise
-		for frame in range(dispose_frames_for_stablisation):
-			frames = depth_sensor.poll_frames()
+        for frame in range(dispose_frames_for_stablisation):
+            frames = depth_sensor.poll_frames()
 
         # Create an align object
         # rs.align allows us to perform alignment of depth frames to others frames
