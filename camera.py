@@ -57,6 +57,7 @@ class Camera:
         if not self.aligned_depth_frame or not color_frame:
             return
 
+        self.color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
         # self.depth_image = np.asanyarray(aligned_depth_frame.get_data())
         self.color_image = np.asanyarray(color_frame.get_data())
 
@@ -71,7 +72,6 @@ class Camera:
         return depth
 
     def get_diameter_in_mm(self, box: Box) -> int:
-        color_intrin = self.color_image.profile.as_video_stream_profile().intrinsics
         left_x, left_y = box.get_left_center()
         right_x, right_y = box.get_right_center()
 
@@ -83,10 +83,10 @@ class Camera:
 
         print(left_dist, right_dist)
 
-        left_point = rs.rs2_deproject_pixel_to_point(color_intrin, [left_x, left_y], left_dist)
-        right_point = rs.rs2_deproject_pixel_to_point(color_intrin, [right_x, right_y], right_dist)
+        left_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [left_x, left_y], left_dist)
+        right_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [right_x, right_y], right_dist)
 
-        print(str(left_point)+str(right_point))
+        print(str(left_point) + str(right_point))
 
         dist = math.sqrt(
             math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
