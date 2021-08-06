@@ -78,6 +78,10 @@ class Camera:
         print(left_x, left_y)
         print(right_x, right_y)
 
+        # validate range
+        if left_x < 0 or left_y < 0:
+            return 0
+        
         left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
         right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
 
