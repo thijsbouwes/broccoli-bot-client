@@ -69,7 +69,7 @@ class Ui(QMainWindow):
         self.robot.farming_logic.set_skipped(0)
         self.robot.farming_logic.set_harvested(0)
 
-    def update_data(self, data: tulp) -> None:
+    def update_data(self, data: tuple) -> None:
         self.set_image(data[0])
         self.broccoli_id_lcd.display(data[1])
         self.harvested_lcd.display(data[2])
