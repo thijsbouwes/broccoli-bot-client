@@ -71,7 +71,7 @@ class Camera:
         return depth
 
     def get_diameter_in_mm(self, box: Box) -> int:
-        color_intrin = self.color_frame.profile.as_video_stream_profile().intrinsics
+        color_intrin = self.color_image.profile.as_video_stream_profile().intrinsics
         left_x, left_y = box.get_left_center()
         right_x, right_y = box.get_right_center()
 
