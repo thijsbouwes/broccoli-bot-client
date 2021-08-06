@@ -75,9 +75,6 @@ class Camera:
         left_x, left_y = box.get_left_center()
         right_x, right_y = box.get_right_center()
 
-        print(left_x, left_y)
-        print(right_x, right_y)
-
         # validate range
         if left_x < 0 or left_y < 0:
             return 0
@@ -85,18 +82,12 @@ class Camera:
         left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
         right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
 
-        print(left_dist, right_dist)
-
         left_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [left_x, left_y], left_dist)
         right_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [right_x, right_y], right_dist)
-
-        print(str(left_point) + str(right_point))
 
         diameter = math.sqrt(
             math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
                 left_point[2] - right_point[2], 2))
-
-        print('diameter: '+ str(diameter))
 
         # convert m to mm
         return int(diameter * 1000)
