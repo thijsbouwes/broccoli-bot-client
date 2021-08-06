@@ -65,7 +65,7 @@ class Camera:
         return self.color_image
 
     def get_depth_in_mm(self, box: Box) -> int:
-        # convert m to m
+        # convert m to mm
         x, y = box.get_center()
         depth = int(self.aligned_depth_frame.get_distance(x,y) * 1000)
 
@@ -81,7 +81,7 @@ class Camera:
         # validate range
         if left_x < 0 or left_y < 0:
             return 0
-        
+
         left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
         right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
 
@@ -92,10 +92,11 @@ class Camera:
 
         print(str(left_point) + str(right_point))
 
-        dist = math.sqrt(
+        diameter = math.sqrt(
             math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
                 left_point[2] - right_point[2], 2))
 
-        print('distance: '+ str(dist))
+        print('diameter: '+ str(diameter))
 
-        return dist
+        # convert m to mm
+        return int(diameter * 1000)
