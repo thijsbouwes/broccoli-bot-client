@@ -1,6 +1,7 @@
 import pyrealsense2.pyrealsense2 as rs
 import bbot.box as Box
 import numpy as np
+import math
 
 class Camera:
     def __init__(self):
@@ -8,6 +9,8 @@ class Camera:
         self.aligned_depth_frame = False
 
     def setup(self) -> None:
+        dispose_frames_for_stablisation = 30  # frames
+
         # Create a pipeline
         self.pipeline = rs.pipeline()
 
@@ -31,6 +34,10 @@ class Camera:
         depth_scale = depth_sensor.get_depth_scale()
         print("Depth Scale is: " , depth_scale)
 
+	    # Allow some frames for the auto-exposure controller to stablise
+		for frame in range(dispose_frames_for_stablisation):
+			frames = depth_sensor.poll_frames()
+
         # Create an align object
         # rs.align allows us to perform alignment of depth frames to others frames
         # The "align_to" is the stream type to which we plan to align depth frames.
@@ -45,7 +52,7 @@ class Camera:
         aligned_frames = self.align.process(frames)
 
         # Get aligned frames
-        self.aligned_depth_frame = aligned_frames.get_depth_frame() # aligned_depth_frame is a 640x480 depth image
+        self.aligned_depth_frame = aligned_frames.get_depth_frame()
         color_frame = aligned_frames.get_color_frame()
 
         # Validate that both frames are valid
@@ -66,5 +73,27 @@ class Camera:
         return depth
 
     def get_diameter_in_mm(self, box: Box) -> int:
-        # todo get diameter at depth
-        return box.get_max_size()
+        color_intrin = self.color_frame.profile.as_video_stream_profile().intrinsics
+        left_x, left_y = box.get_left_center()
+        right_x, right_y = box.get_right_center()
+
+        print(left_x, left_y)
+        print(right_x, right_y)
+
+        left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
+        right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
+
+        print(left_dist, right_dist)
+
+        left_point = rs.rs2_deproject_pixel_to_point(color_intrin, [left_x, left_y], left_dist)
+        right_point = rs.rs2_deproject_pixel_to_point(color_intrin, [right_x, right_y], right_dist)
+
+        print(str(left_point)+str(right_point))
+
+        dist = math.sqrt(
+            math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
+                left_point[2] - right_point[2], 2))
+
+        print('distance: '+ str(dist))
+
+        return dist
