@@ -9,8 +9,6 @@ class Camera:
         self.aligned_depth_frame = False
 
     def setup(self) -> None:
-        dispose_frames_for_stablisation = 30  # frames
-
         # Create a pipeline
         self.pipeline = rs.pipeline()
 
@@ -35,8 +33,8 @@ class Camera:
         print("Depth Scale is: " , depth_scale)
 
 	    # Allow some frames for the auto-exposure controller to stablise
-        for frame in range(dispose_frames_for_stablisation):
-            frames = depth_sensor.poll_frames()
+        for i in range(30):
+            self.pipeline.wait_for_frames()
 
         # Create an align object
         # rs.align allows us to perform alignment of depth frames to others frames
