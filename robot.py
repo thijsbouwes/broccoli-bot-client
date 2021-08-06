@@ -74,7 +74,7 @@ class Robot(QObject):
 
                 # Process events
                 QApplication.processEvents()
-                time.sleep(0.1)
+                time.sleep(0.001)
 
         except Exception as e:
             print('Error in: {}'.format(e))

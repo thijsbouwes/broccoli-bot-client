@@ -65,10 +65,6 @@ class Camera:
         left_x, left_y = box.get_left_center()
         right_x, right_y = box.get_right_center()
 
-        # validate range
-        if left_x < 0 or left_y < 0:
-            return 0
-
         left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
         right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
 
