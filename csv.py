@@ -9,6 +9,11 @@ class Csv:
     def __init__(self):
         dirname = os.path.dirname(__file__)
         self.path = os.path.join(dirname, 'data-collection/reports/')
+        os.makedirs(self.path, exist_ok=True)
+
+        now = datetime.datetime.now()
+        self.file_name = now.strftime("%Y-%m-%d-%H-%M-%f-data.csv")
+
         self.headers = [
             'id',
             'score',
@@ -19,13 +24,11 @@ class Csv:
             'ground_truth_diameter',
             'ground_truth_depth'
         ]
-        os.makedirs(self.path, exist_ok=True)
 
     def write_row(self, broccoli: Broccoli, edited_image_path: str, raw_image_path: str):
-        file_name = self.get_file_name()
-        file_exists = os.path.isfile(self.path + file_name)
+        file_exists = os.path.isfile(self.path + self.file_name)
 
-        with open(self.path + file_name, 'a') as csv_file:
+        with open(self.path + self.file_name, 'a') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=self.headers)
 
             if not file_exists:
@@ -43,10 +46,9 @@ class Csv:
     # Update broccoli with ground truth
     # Use temp file for updating CSV
     def update_row(self, broccoli_id: int, ground_truth_diameter: int, ground_truth_depth: int):
-        file_name = self.get_file_name()
         temp_file = NamedTemporaryFile('w', delete=False)
 
-        with open(self.path + file_name, 'r') as csv_file, temp_file:
+        with open(self.path + self.file_name, 'r') as csv_file, temp_file:
             reader = csv.DictReader(csv_file, fieldnames=self.headers)
             writer = csv.DictWriter(temp_file, fieldnames=self.headers)
 
@@ -56,9 +58,9 @@ class Csv:
                     row['ground_truth_depth'] = ground_truth_depth
                 writer.writerow(row)
 
-        shutil.move(temp_file.name, self.path + file_name)
+        shutil.move(temp_file.name, self.path + self.file_name)
 
     def get_file_name(self):
         now = datetime.datetime.now()
 
-        return now.strftime("%Y-%m-%d-data.csv")
+        return now.strftime("%Y-%m-%d-%H-%M-%f-data.csv")
