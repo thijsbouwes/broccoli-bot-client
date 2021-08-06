@@ -22,7 +22,7 @@ class Robot(QObject):
         self.image_editor = ImageEditor()
         self.detection_algorithm = DetectionAlgorithm()
 
-    def run(self):
+    def run(self) -> None:
         print('Robot: run')
 
         try:
@@ -74,18 +74,18 @@ class Robot(QObject):
 
                 # Process events
                 QApplication.processEvents()
-                time.sleep(0.001)
+                time.sleep(0.1)
 
         except Exception as e:
             print('Error in: {}'.format(e))
 
-    def save_ground_truth(self, ground_truth_diameter: int, ground_truth_depth: int):
+    def save_ground_truth(self, ground_truth_diameter: int, ground_truth_depth: int) -> None:
         broccoli_id = self.farming_logic.get_broccoli_count()
         if broccoli_id:
             self.csv.update_row(self.farming_logic.get_broccoli_count(), ground_truth_diameter, ground_truth_depth)
 
-    def calculate_fps(self):
+    def calculate_fps(self) -> None:
         self.fps = int(1.0 / (time.time() - self.start_time))
 
-    def set_min_score(self, min_score):
+    def set_min_score(self, min_score: float) -> None:
         self.min_score = round(min_score, 2)

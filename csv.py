@@ -25,7 +25,7 @@ class Csv:
             'ground_truth_depth'
         ]
 
-    def write_row(self, broccoli: Broccoli, edited_image_path: str, raw_image_path: str):
+    def write_row(self, broccoli: Broccoli, edited_image_path: str, raw_image_path: str) -> None:
         file_exists = os.path.isfile(self.path + self.file_name)
 
         with open(self.path + self.file_name, 'a') as csv_file:
@@ -45,7 +45,7 @@ class Csv:
 
     # Update broccoli with ground truth
     # Use temp file for updating CSV
-    def update_row(self, broccoli_id: int, ground_truth_diameter: int, ground_truth_depth: int):
+    def update_row(self, broccoli_id: int, ground_truth_diameter: int, ground_truth_depth: int) -> None:
         temp_file = NamedTemporaryFile('w', delete=False)
 
         with open(self.path + self.file_name, 'r') as csv_file, temp_file:
@@ -59,8 +59,3 @@ class Csv:
                 writer.writerow(row)
 
         shutil.move(temp_file.name, self.path + self.file_name)
-
-    def get_file_name(self):
-        now = datetime.datetime.now()
-
-        return now.strftime("%Y-%m-%d-%H-%M-%f-data.csv")

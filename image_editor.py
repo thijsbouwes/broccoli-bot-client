@@ -2,9 +2,10 @@ from PySide2 import QtGui
 import os
 import cv2
 import datetime
+import numpy as np
 
 class ImageEditor:
-    def draw_broccoli(self, image, broccoli):
+    def draw_broccoli(self, image, broccoli) -> np.ndarray:
         top_left = broccoli.get_box().get_top_left()
         bottom_right = broccoli.get_box().get_bottom_right()
         text_x, text_y = broccoli.get_box().get_bottom_left()

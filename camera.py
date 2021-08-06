@@ -13,24 +13,15 @@ class Camera:
         self.pipeline = rs.pipeline()
 
         # Create a config and configure the pipeline to stream
-        #  different resolutions of color and depth streams
         config = rs.config()
 
         # Get device product line for setting a supporting resolution
         pipeline_wrapper = rs.pipeline_wrapper(self.pipeline)
-        pipeline_profile = config.resolve(pipeline_wrapper)
-
-        # todo format 1920x1080
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
         config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
 
         # Start streaming
         profile = self.pipeline.start(config)
-
-        # Getting the depth sensor's depth scale (see rs-align example for explanation)
-        depth_sensor = profile.get_device().first_depth_sensor()
-        depth_scale = depth_sensor.get_depth_scale()
-        print("Depth Scale is: " , depth_scale)
 
 	    # Allow some frames for the auto-exposure controller to stablise
         for i in range(30):
@@ -58,7 +49,6 @@ class Camera:
             return
 
         self.color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
-        # self.depth_image = np.asanyarray(aligned_depth_frame.get_data())
         self.color_image = np.asanyarray(color_frame.get_data())
 
     def get_color_frame(self) -> np.ndarray:

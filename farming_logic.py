@@ -5,7 +5,7 @@ class FarmingLogic:
         self.min_diameter = 10
         self.max_diameter = 150
         self.max_depth = 1000
-        self.image_height = 720
+        self.image_height = 1080
 
         self.harvested = 0
         self.skipped = 0
@@ -46,13 +46,13 @@ class FarmingLogic:
 
         print('count y: {} new: {} count new: {}'.format(y, self.new_broccoli_detected, self.count_new_broccoli))
 
-    def set_min_diameter(self, min_diameter: int):
+    def set_min_diameter(self, min_diameter: int) -> None:
         self.min_diameter = min_diameter
 
-    def set_max_diameter(self, max_diameter: int):
+    def set_max_diameter(self, max_diameter: int) -> None:
         self.max_diameter = max_diameter
 
-    def set_max_depth(self, max_depth: int):
+    def set_max_depth(self, max_depth: int) -> None:
         self.max_depth = max_depth
 
     def get_broccoli_count(self) -> int:

@@ -17,7 +17,7 @@ class DetectionAlgorithm:
             batch_size=1
         )
 
-    def get_broccolis(self, image, min_core):
+    def get_broccolis(self, image, min_core) -> list:
         frame_resized = cv2.resize(image, (self.width, self.height),interpolation=cv2.INTER_LINEAR)
         img_for_detect = darknet.make_image(self.width, self.height, 3)
         darknet.copy_image_from_bytes(img_for_detect, frame_resized.tobytes())
@@ -36,7 +36,7 @@ class DetectionAlgorithm:
         print("Found {} broccolis".format(len(broccolis)))
         return broccolis
 
-    def convert2relative(self, bbox):
+    def convert2relative(self, bbox) -> tuple:
         """
         YOLO format use relative coordinates for annotation
         """
@@ -44,9 +44,9 @@ class DetectionAlgorithm:
         _height     = self.height
         _width      = self.width
 
-        return x/_width, y/_height, w/_width, h/_height
+        return (x/_width, y/_height, w/_width, h/_height)
 
-    def convert2original(self, image, bbox):
+    def convert2original(self, image, bbox) -> tuple:
         x, y, w, h = self.convert2relative(bbox)
 
         image_h, image_w, __ = image.shape
@@ -56,6 +56,4 @@ class DetectionAlgorithm:
         orig_width   = int(w * image_w)
         orig_height  = int(h * image_h)
 
-        bbox_converted = (orig_x, orig_y, orig_width, orig_height)
-
-        return bbox_converted
+        return (orig_x, orig_y, orig_width, orig_height)

@@ -65,11 +65,11 @@ class Ui(QMainWindow):
     def save_ground_truth(self):
         self.robot.save_ground_truth(self.broccoli_diameter.value(), self.broccoli_depth.value())
 
-    def reset_counters(self):
+    def reset_counters(self) -> None:
         self.robot.farming_logic.set_skipped(0)
         self.robot.farming_logic.set_harvested(0)
 
-    def update_data(self, data):
+    def update_data(self, data: tulp) -> None:
         self.set_image(data[0])
         self.broccoli_id_lcd.display(data[1])
         self.harvested_lcd.display(data[2])
