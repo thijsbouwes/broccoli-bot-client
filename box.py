@@ -20,10 +20,10 @@ class Box:
         return (self.x, self.y + self.height)
 
     def get_left_center(self) -> tuple:
-        return (max(self.x, 0), self.y_center, 0)
+        return (max(self.x, 0), self.y_center)
 
     def get_right_center(self) -> tuple:
-        return (min(self.x + self.width, 1919), self.y_center, 0)
+        return (min(self.x + self.width, 1919), self.y_center)
 
     def get_center(self) -> tuple:
         return (self.x_center, self.y_center)
