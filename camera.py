@@ -65,11 +65,11 @@ class Camera:
         left_x, left_y = box.get_left_center()
         right_x, right_y = box.get_right_center()
 
-        left_dist = self.aligned_depth_frame.get_distance(left_x, left_y)
-        right_dist = self.aligned_depth_frame.get_distance(right_x, right_y)
+        x, y = box.get_center()
+        dist = self.aligned_depth_frame.get_distance(x,y)
 
-        left_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [left_x, left_y], left_dist)
-        right_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [right_x, right_y], right_dist)
+        left_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [left_x, left_y], dist)
+        right_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [right_x, right_y], dist)
 
         diameter = math.sqrt(
             math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
