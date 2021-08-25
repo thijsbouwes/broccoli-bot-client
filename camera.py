@@ -62,7 +62,8 @@ class Camera:
         x_1, y_1, x_2, y_2 = box.get_max_size()
 
         # Calculate distance at center
-        dist = self.aligned_depth_frame.get_distance(box.get_center())
+        x_center, y_center = box.get_center()
+        dist = self.aligned_depth_frame.get_distance(x_center, y_center)
 
         # Convert 2D to 3D point
         # Take into account: depth and intrinsics of the hardware
