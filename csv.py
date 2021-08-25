@@ -8,10 +8,9 @@ from tempfile import NamedTemporaryFile
 class Csv:
     def __init__(self):
         dirname = os.path.dirname(__file__)
+        now = datetime.datetime.now()
         self.path = os.path.join(dirname, 'data-collection/reports/')
         os.makedirs(self.path, exist_ok=True)
-
-        now = datetime.datetime.now()
         self.file_name = now.strftime("%Y-%m-%d-%H-%M-%f-data.csv")
 
         self.headers = [

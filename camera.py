@@ -14,14 +14,11 @@ class Camera:
 
         # Create a config and configure the pipeline to stream
         config = rs.config()
-
-        # Get device product line for setting a supporting resolution
-        pipeline_wrapper = rs.pipeline_wrapper(self.pipeline)
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
         config.enable_stream(rs.stream.color, 1920, 1080, rs.format.bgr8, 30)
 
         # Start streaming
-        profile = self.pipeline.start(config)
+        self.pipeline.start(config)
 
 	    # Allow some frames for the auto-exposure controller to stablise
         for i in range(30):
@@ -34,7 +31,7 @@ class Camera:
         self.align = rs.align(align_to)
 
     def take_photo(self) -> None:
-        # Get frameset of color and depth
+        # Get frames of color and depth
         frames = self.pipeline.wait_for_frames()
 
         # Align the depth frame to color frame
@@ -57,23 +54,23 @@ class Camera:
     def get_depth_in_mm(self, box: Box) -> int:
         # convert m to mm
         x, y = box.get_center()
-        depth = int(self.aligned_depth_frame.get_distance(x,y) * 1000)
 
-        return depth
+        return int(self.aligned_depth_frame.get_distance(x,y) * 1000)
 
     def get_diameter_in_mm(self, box: Box) -> int:
-        left_x, left_y = box.get_left_center()
-        right_x, right_y = box.get_right_center()
+        # Get xy for max size
+        x_1, y_1, x_2, y_2 = box.get_max_size()
 
-        x, y = box.get_center()
-        dist = self.aligned_depth_frame.get_distance(x,y)
+        # Calculate distance at center
+        dist = self.aligned_depth_frame.get_distance(box.get_center())
 
-        left_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [left_x, left_y], dist)
-        right_point = rs.rs2_deproject_pixel_to_point(self.color_intrin, [right_x, right_y], dist)
+        # Convert 2D to 3D point
+        # Take into account: depth and intrinsics of the hardware
+        point_1 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_1, y_1], dist)
+        point_2 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_1, y_2], dist)
 
-        diameter = math.sqrt(
-            math.pow(left_point[0] - right_point[0], 2) + math.pow(left_point[1] - right_point[1],2) + math.pow(
-                left_point[2] - right_point[2], 2))
+        # Calculate diameter with pythagoras
+        diameter = math.sqrt(math.pow(point_1[0] - point_2[0], 2) + math.pow(point_1[1] - point_2[1],2) + math.pow(point_1[2] - point_2[2], 2))
 
         # convert m to mm
         return int(diameter * 1000)

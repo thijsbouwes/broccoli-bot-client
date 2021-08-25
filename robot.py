@@ -23,9 +23,8 @@ class Robot(QObject):
         self.detection_algorithm = DetectionAlgorithm()
 
     def run(self) -> None:
-        print('Robot: run')
-
         try:
+            # Setup dependencies
             self.camera.setup()
             self.detection_algorithm.setup()
             self.start_time = time.time()

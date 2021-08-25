@@ -4,11 +4,11 @@ class Box:
         self.x = int(self.x_center - self.width / 2)
         self.y = int(self.y_center - self.height / 2)
 
-    def get_max_size(self) -> int:
+    def get_max_size(self) -> tuple:
         if self.width > self.height:
-            return self.width
+            return self.get_left_center(), self.get_right_center()
         else:
-            return self.height
+            return self.get_top_center(), self.get_bottom_center()
 
     def get_top_left(self) -> tuple:
         return (self.x, self.y)
@@ -24,6 +24,12 @@ class Box:
 
     def get_right_center(self) -> tuple:
         return (min(self.x + self.width, 1919), self.y_center)
+
+    def get_top_center(self):
+        return (self.x_center, self.y)
+
+    def get_bottom_center(self):
+        return (self.x_center, self.y + self.height)
 
     def get_center(self) -> tuple:
         return (self.x_center, self.y_center)

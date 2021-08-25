@@ -50,16 +50,16 @@ class Ui(QMainWindow):
         self.max_depth.valueChanged.connect(self.robot.farming_logic.set_max_depth)
         self.min_score.valueChanged.connect(self.robot.set_min_score)
 
-        # self.update_settings.connect(self.robot.update_settings_slot)
+        # Connect Robot events
         self.robot.update_data.connect(self.update_data)
-
         self.robot_thread.started.connect(self.robot.run)
         self.robot_thread.finished.connect(self.robot.deleteLater)
 
+        # Start Robot Thread
         self.robot.moveToThread(self.robot_thread)
         self.robot_thread.start()
 
-    def set_image(self, image):
+    def set_image(self, image) -> None:
         self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def save_ground_truth(self):
