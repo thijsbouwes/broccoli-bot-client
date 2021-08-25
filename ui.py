@@ -40,7 +40,7 @@ class Ui(QMainWindow):
         # Setup image
         self.image = self.findChild(QLabel, 'image')
 
-        # Start Robot
+        # Setup Robot
         self.robot_thread = QThread()
         self.robot = Robot()
 
@@ -59,7 +59,7 @@ class Ui(QMainWindow):
         self.robot.moveToThread(self.robot_thread)
         self.robot_thread.start()
 
-    def set_image(self, image) -> None:
+    def set_image(self, image: QtGui.QImage) -> None:
         self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def save_ground_truth(self):
