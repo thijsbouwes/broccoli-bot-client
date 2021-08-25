@@ -6,9 +6,9 @@ class Box:
 
     def get_max_size(self) -> tuple:
         if self.width > self.height:
-            return self.get_left_center(), self.get_right_center()
+            return self.get_left_center() + self.get_right_center()
         else:
-            return self.get_top_center(), self.get_bottom_center()
+            return self.get_top_center() + self.get_bottom_center()
 
     def get_top_left(self) -> tuple:
         return (self.x, self.y)
