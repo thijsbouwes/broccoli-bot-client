@@ -19,6 +19,7 @@ class DetectionAlgorithm:
         )
 
     def get_broccolis(self, image: np.ndarray, min_score: int) -> list:
+        # Resize frame to 416x416
         frame_resized = cv2.resize(image, (self.width, self.height), interpolation=cv2.INTER_LINEAR)
         img_for_detect = darknet.make_image(self.width, self.height, 3)
         darknet.copy_image_from_bytes(img_for_detect, frame_resized.tobytes())
@@ -29,23 +30,22 @@ class DetectionAlgorithm:
         broccolis = []
         for label, confidence, bbox in detections:
             broccoli = Broccoli()
-            box = self.convert2original(image, bbox)
+            box = self.convert_to_original(image, bbox)
             broccoli.set_box(Box(box))
             broccoli.set_score(confidence)
             broccolis.append(broccoli)
 
         return broccolis
 
-    def convert2relative(self, bbox) -> tuple:
+    def convert_to_relative(self, bbox) -> tuple:
         # YOLO format use relative coordinates for annotation
         x, y, w, h = bbox
-        height = self.height
-        width = self.width
 
-        return (x / width, y / height, w / width, h / height)
+        return (x / self.width, y / self.height, w / self.width, h / self.height)
 
-    def convert2original(self, image, bbox) -> tuple:
-        x, y, w, h = self.convert2relative(bbox)
+    def convert_to_original(self, image, bbox) -> tuple:
+        # Convert coordinates to original image size
+        x, y, w, h = self.convert_to_relative(bbox)
         image_h, image_w, __ = image.shape
         orig_x = int(x * image_w)
         orig_y = int(y * image_h)
