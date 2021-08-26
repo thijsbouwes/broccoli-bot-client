@@ -5,21 +5,21 @@ import cv2
 import os
 import numpy as np
 
+
 class DetectionAlgorithm:
     width = 416
     height = 416
 
     def setup(self):
-        print('setup netwerk')
         self.network, self.class_names, class_colors = darknet.load_network(
-            os.path.join(os.path.dirname(__file__), 'cfg/yolo-obj.cfg'), # 'yolov4-tiny-custom.cfg'
+            os.path.join(os.path.dirname(__file__), 'cfg/yolo-obj.cfg'),  # 'yolov4-tiny-custom.cfg'
             os.path.join(os.path.dirname(__file__), 'obj.data'),
             os.path.join(os.path.dirname(__file__), 'weights/yolo-obj_best.weights'), # 'yolov4-tiny-custom_best.weights'
             batch_size=1
         )
 
     def get_broccolis(self, image: np.ndarray, min_score: int) -> list:
-        frame_resized = cv2.resize(image, (self.width, self.height),interpolation=cv2.INTER_LINEAR)
+        frame_resized = cv2.resize(image, (self.width, self.height), interpolation=cv2.INTER_LINEAR)
         img_for_detect = darknet.make_image(self.width, self.height, 3)
         darknet.copy_image_from_bytes(img_for_detect, frame_resized.tobytes())
 
@@ -37,23 +37,19 @@ class DetectionAlgorithm:
         return broccolis
 
     def convert2relative(self, bbox) -> tuple:
-        """
-        YOLO format use relative coordinates for annotation
-        """
-        x, y, w, h  = bbox
-        _height     = self.height
-        _width      = self.width
+        # YOLO format use relative coordinates for annotation
+        x, y, w, h = bbox
+        height = self.height
+        width = self.width
 
-        return (x/_width, y/_height, w/_width, h/_height)
+        return (x / width, y / height, w / width, h / height)
 
     def convert2original(self, image, bbox) -> tuple:
         x, y, w, h = self.convert2relative(bbox)
-
         image_h, image_w, __ = image.shape
-
-        orig_x       = int(x * image_w)
-        orig_y       = int(y * image_h)
-        orig_width   = int(w * image_w)
-        orig_height  = int(h * image_h)
+        orig_x = int(x * image_w)
+        orig_y = int(y * image_h)
+        orig_width = int(w * image_w)
+        orig_height = int(h * image_h)
 
         return (orig_x, orig_y, orig_width, orig_height)
