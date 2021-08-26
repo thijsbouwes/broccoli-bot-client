@@ -44,8 +44,6 @@ class FarmingLogic:
         else:
             self.new_broccoli_detected = False
 
-        print('count y: {} new: {} count new: {}'.format(y, self.new_broccoli_detected, self.count_new_broccoli))
-
     def set_min_diameter(self, min_diameter: int) -> None:
         self.min_diameter = min_diameter
 

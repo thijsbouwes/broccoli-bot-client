@@ -62,7 +62,7 @@ class Ui(QMainWindow):
     def set_image(self, image: QtGui.QImage) -> None:
         self.image.setPixmap(QtGui.QPixmap.fromImage(image))
 
-    def save_ground_truth(self):
+    def save_ground_truth(self) -> None:
         self.robot.save_ground_truth(self.broccoli_diameter.value(), self.broccoli_depth.value())
 
     def reset_counters(self) -> None:

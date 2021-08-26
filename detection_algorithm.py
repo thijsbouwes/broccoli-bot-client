@@ -3,6 +3,7 @@ from bbot.broccoli import Broccoli
 from bbot.box import Box
 import cv2
 import os
+import numpy as np
 
 class DetectionAlgorithm:
     width = 416
@@ -17,12 +18,12 @@ class DetectionAlgorithm:
             batch_size=1
         )
 
-    def get_broccolis(self, image, min_core) -> list:
+    def get_broccolis(self, image: np.ndarray, min_score: int) -> list:
         frame_resized = cv2.resize(image, (self.width, self.height),interpolation=cv2.INTER_LINEAR)
         img_for_detect = darknet.make_image(self.width, self.height, 3)
         darknet.copy_image_from_bytes(img_for_detect, frame_resized.tobytes())
 
-        detections = darknet.detect_image(self.network, self.class_names, img_for_detect, thresh=min_core)
+        detections = darknet.detect_image(self.network, self.class_names, img_for_detect, thresh=min_score)
         darknet.free_image(img_for_detect)
 
         broccolis = []
@@ -33,7 +34,6 @@ class DetectionAlgorithm:
             broccoli.set_score(confidence)
             broccolis.append(broccoli)
 
-        print("Found {} broccolis".format(len(broccolis)))
         return broccolis
 
     def convert2relative(self, bbox) -> tuple:

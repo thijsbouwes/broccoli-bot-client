@@ -3,9 +3,10 @@ import os
 import cv2
 import datetime
 import numpy as np
+from bbot.broccoli import Broccoli
 
 class ImageEditor:
-    def draw_broccoli(self, image, broccoli) -> np.ndarray:
+    def draw_broccoli(self, image: np.ndarray, broccoli: Broccoli) -> np.ndarray:
         top_left = broccoli.get_box().get_top_left()
         bottom_right = broccoli.get_box().get_bottom_right()
         text_x, text_y = broccoli.get_box().get_bottom_left()
@@ -21,13 +22,11 @@ class ImageEditor:
 
         return image
 
-    def store_image(self, image, type: str) -> str:
+    def store_image(self, image: np.ndarray, type: str) -> str:
         now = datetime.datetime.now()
         dirname = os.path.dirname(__file__)
         image_path = os.path.join(dirname, now.strftime("data-collection/%Y/%m/%d/"))
         image_filename = now.strftime("%H-%M-%f-{}-image.jpg").format(type)
-
-        print("New image, path: {} filename: {}".format(image_path, image_filename))
 
         # Create dir and image
         os.makedirs(image_path, exist_ok=True)
