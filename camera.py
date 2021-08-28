@@ -62,13 +62,14 @@ class Camera:
         x_1, y_1, x_2, y_2 = box.get_max_size()
 
         # Calculate distance at center
-        x_center, y_center = box.get_center()
-        dist = self.aligned_depth_frame.get_distance(x_center, y_center)
+        # x_center, y_center = box.get_center()
+        z_1 = self.aligned_depth_frame.get_distance(x_1, y_1)
+        z_2 = self.aligned_depth_frame.get_distance(x_2, y_2)
 
         # Convert 2D to 3D point
         # Take into account: depth and intrinsics of the hardware
-        point_1 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_1, y_1], dist)
-        point_2 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_2, y_2], dist)
+        point_1 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_1, y_1], z_1)
+        point_2 = rs.rs2_deproject_pixel_to_point(self.color_intrin, [x_2, y_2], z_2)
 
         # Calculate diameter with pythagoras
         diameter = math.sqrt(math.pow(point_1[0] - point_2[0], 2) + math.pow(point_1[1] - point_2[1],2) + math.pow(point_1[2] - point_2[2], 2))

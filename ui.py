@@ -1,6 +1,6 @@
-from PySide2 import QtCore, QtWidgets, QtGui
-from PySide2.QtWidgets import QWidget, QMainWindow, QLCDNumber, QPushButton, QSpinBox, QLabel, QDoubleSpinBox
-from PySide2.QtCore import QFile, QThread, Qt, Signal
+from PySide2 import QtGui
+from PySide2.QtWidgets import QMainWindow, QLCDNumber, QPushButton, QSpinBox, QLabel, QDoubleSpinBox
+from PySide2.QtCore import QFile, QThread
 from PySide2.QtUiTools import QUiLoader
 from pathlib import Path
 from bbot.robot import Robot

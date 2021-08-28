@@ -81,7 +81,7 @@ class Robot(QObject):
     def save_ground_truth(self, ground_truth_diameter: int, ground_truth_depth: int) -> None:
         broccoli_id = self.farming_logic.get_broccoli_count()
         if broccoli_id:
-            self.csv.update_row(self.farming_logic.get_broccoli_count(), ground_truth_diameter, ground_truth_depth)
+            self.csv.update_row(broccoli_id, ground_truth_diameter, ground_truth_depth)
 
     def calculate_fps(self) -> None:
         self.fps = int(1.0 / (time.time() - self.start_time))

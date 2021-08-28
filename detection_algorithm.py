@@ -5,7 +5,6 @@ import cv2
 import os
 import numpy as np
 
-
 class DetectionAlgorithm:
     width = 416
     height = 416
