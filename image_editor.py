@@ -8,9 +8,13 @@ from bbot.broccoli import Broccoli
 class ImageEditor:
     def draw_broccoli(self, image: np.ndarray, broccoli: Broccoli) -> np.ndarray:
         top_left = broccoli.get_box().get_top_left()
-        measure = broccoli.get_box().width > broccoli.get_box().height if 'W' else 'H'
         bottom_right = broccoli.get_box().get_bottom_right()
         text_x, text_y = broccoli.get_box().get_bottom_left()
+
+        if broccoli.get_box().width > broccoli.get_box().height:
+            measure = 'W'
+        else:
+            measure = 'H'
 
         if broccoli.is_harvestable():
             color = (0,255,0)
