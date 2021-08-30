@@ -130,13 +130,13 @@ After updating the make file run `make`.
 
 ## Design
 ### UI
-![UI](images/Broccoli%20Proof%20Of%20Concept%20-%20Ui.png "UI")
+![UI](images/Broccoli%20Proof%20Of%20Concept%20-%20Ui%20-%202.jpg "UI")
 
 ### Class Diagram
-![Class Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Class%20Diagram.jpg "Class Diagram")
+![Class Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Class%20Diagram%20-%202.jpg "Class Diagram")
 
 ### Sequence Diagram
-![Sequence Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Sequence%20Diagram.jpg "Sequence Diagram")
+![Sequence Diagram](images/Broccoli%20Proof%20Of%20Concept%20-%20Sequence%20Diagram%20-%202.jpg "Sequence Diagram")
 
 ## Data collection
 For every broccoli the software will make an image and collect data (diameter and distance). The image is written to `~/bbot/data-collection/images/{year}/{month}/{day}`, the csv file with all the information is written to `~/bbot/data-collection/reports`.
