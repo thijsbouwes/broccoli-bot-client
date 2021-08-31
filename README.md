@@ -142,3 +142,14 @@ After updating the make file run `make`.
 For every broccoli the software will make an image and collect data (diameter and distance). The image is written to `~/bbot/data-collection/images/{year}/{month}/{day}`, the csv file with all the information is written to `~/bbot/data-collection/reports`.
 
 On our Jetson we have created a symbolic link to the SSD (mounted as `/mnt/data`) `ln -s /mnt/data/bbot-data-collection ~/bbot/data-collection`.
+
+## Experiment
+To validate the design works on the field, where the conditions are rough: sunlight, wind, weeds and growth direction. An experiment is conducted during the experiment 50 broccoli's are reviewed by the software and the ground truth is measured. With a measuring tape (class II, +/- 1.3 mm error) the ground truth is measured and documented in a CSV file ([Results Google Spreadsheet](https://docs.google.com/spreadsheets/d/13FMBBFy6KS5xCIPXmjqU_Gz5EQVEfwsXd94NA9lxUiE/edit?usp=sharing)).
+
+By comparing the ground truth with the software measurement, the accuracy can be calculated.
+* Diameter 9.36 mm
+* Depth 8.98 mm
+
+The diameter has quite a large accuracy, this is due the bounding box not fitting the broccoli correctly. In some cases the broccoli isn't completely visible (see image below) and it makes sense the accuracy is not accurate. In case of the red bounding box there is room for improvement, on the right side it has 5 á 10 mm extra room. 
+
+![Experiment](images/experiment.jpg "Experiment")
